@@ -14,5 +14,4 @@ RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_R
   && chmod -R 755 /usr/local/include/ \
   && rm protoc-${PROTOBUF_REVISION}-linux-x86_64.zip
 
-RUN mkdir /go \
-  && go get -u github.com/golang/protobuf/protoc-gen-go 
+RUN go get -u github.com/golang/protobuf/protoc-gen-go 
