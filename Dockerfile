@@ -58,3 +58,5 @@ RUN apk del \
   libtool \
   unzip \
   && rm -rf /var/cache/apk/*
+
+RUN mkdir /build
