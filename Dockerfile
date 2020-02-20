@@ -3,7 +3,7 @@ FROM golang:1.13.8-alpine3.11
 LABEL maintainer="domsn.lee@gmail.com"
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories \
-    && apk add --update curl unzip
+    && apk add --update curl unzip git
 
 
 ENV PROTOBUF_REVISION 3.11.4
