@@ -2,18 +2,20 @@ FROM golang:1.13.8-alpine3.11
 
 LABEL maintainer="domsn.lee@gmail.com"
 
+WORKDIR /build
+
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories \
     && apk add --update curl unzip git autoconf automake build-base libtool
 
-
+# install protobuf
 ENV PROTOBUF_REVISION 3.11.4
-
 RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_REVISION}/protoc-${PROTOBUF_REVISION}-linux-x86_64.zip \
   && unzip protoc-${PROTOBUF_REVISION}-linux-x86_64.zip -d /usr/local \
   && chmod +x /usr/local/bin/protoc \
   && chmod -R 755 /usr/local/include/ \
   && rm protoc-${PROTOBUF_REVISION}-linux-x86_64.zip
 
+# glibc for alpine, protobuf dependency
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/andyshinn/alpine-pkg-glibc/releases/download" \
     && ALPINE_GLIBC_PACKAGE_VERSION="2.30-r0" \
@@ -41,6 +43,7 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/andyshinn/alpine-pkg-glibc/release
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
+# install protoc-gen-go for go
 RUN go get -u github.com/golang/protobuf/protoc-gen-go 
 
 RUN apk --update add \
@@ -58,5 +61,3 @@ RUN apk del \
   libtool \
   unzip \
   && rm -rf /var/cache/apk/*
-
-RUN mkdir /build
