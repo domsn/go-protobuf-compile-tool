@@ -15,3 +15,7 @@ RUN curl -sLO https://github.com/google/protobuf/releases/download/v${PROTOBUF_R
   && rm protoc-${PROTOBUF_REVISION}-linux-x86_64.zip
 
 RUN go get -u github.com/golang/protobuf/protoc-gen-go 
+
+RUN apk --update add \
+  bash \
+  libstdc++
